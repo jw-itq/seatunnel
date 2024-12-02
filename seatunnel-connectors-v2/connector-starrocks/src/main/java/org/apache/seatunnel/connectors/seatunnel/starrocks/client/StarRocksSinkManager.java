@@ -17,8 +17,9 @@
 
 package org.apache.seatunnel.connectors.seatunnel.starrocks.client;
 
-import org.apache.seatunnel.api.table.catalog.TableSchema;
 import org.apache.seatunnel.shade.com.google.common.base.Strings;
+
+import org.apache.seatunnel.api.table.catalog.TableSchema;
 import org.apache.seatunnel.connectors.seatunnel.starrocks.config.SinkConfig;
 import org.apache.seatunnel.connectors.seatunnel.starrocks.exception.StarRocksConnectorErrorCode;
 import org.apache.seatunnel.connectors.seatunnel.starrocks.exception.StarRocksConnectorException;
