@@ -111,7 +111,6 @@ public class StarRocksTypeConverter implements TypeConverter<BasicTypeDefine<Sta
                         .defaultValue(typeDefine.getDefaultValue())
                         .comment(typeDefine.getComment());
         String type = getOriginalType(typeDefine);
-
         switch (type) {
             case SR_NULL:
                 builder.dataType(BasicType.VOID_TYPE);
