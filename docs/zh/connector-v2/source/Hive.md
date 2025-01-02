@@ -6,7 +6,7 @@
 
 从 Hive 读取数据。
 
-:::提示
+:::tip 提示
 
 为了使用此连接器，您必须确保您的 Spark/Flink 集群已经集成了 Hive。测试过的 Hive 版本是 2.3.9 和 3.1.3。
 
@@ -187,7 +187,7 @@ source {
     table_name = "default.test_hive_sink_on_hdfs_with_kerberos"
     metastore_uri = "thrift://metastore:9083"
     hive.hadoop.conf-path = "/tmp/hadoop"
-    result_table_name = hive_source
+    plugin_output = hive_source
     hive_site_path = "/tmp/hive-site.xml"
     kerberos_principal = "hive/metastore.seatunnel@EXAMPLE.COM"
     kerberos_keytab_path = "/tmp/hive.keytab"
@@ -197,7 +197,7 @@ source {
 
 sink {
   Assert {
-    source_table_name = hive_source
+    plugin_input = hive_source
     rules {
       row_rules = [
         {
