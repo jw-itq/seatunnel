@@ -62,6 +62,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import static org.awaitility.Awaitility.await;
 import static org.awaitility.Awaitility.given;
 
 @Slf4j
@@ -179,7 +180,7 @@ public class StarRocksMultiSinkIT extends TestSuiteBase implements TestResource 
                         throw new RuntimeException(e);
                     }
                 });
-        TimeUnit.SECONDS.sleep(30);
+        TimeUnit.SECONDS.sleep(10);
 
         // verify multi table sink
         verifyDataConsistency("orders");
@@ -188,13 +189,12 @@ public class StarRocksMultiSinkIT extends TestSuiteBase implements TestResource 
 
         insertNewDataIntoMySQL();
         insertNewDataIntoMySQL();
-        TimeUnit.SECONDS.sleep(10);
+        // verify incremental
         verifyDataConsistency("orders");
-        // savepoint 1
+        // savepoint
         Assertions.assertEquals(0, container.savepointJob(jobId).getExitCode());
-        TimeUnit.SECONDS.sleep(5);
         insertNewDataIntoMySQL();
-        // restore 1
+        // restore
         CompletableFuture.supplyAsync(
                 () -> {
                     try {
@@ -206,17 +206,21 @@ public class StarRocksMultiSinkIT extends TestSuiteBase implements TestResource 
                     return null;
                 });
         insertNewDataIntoMySQL();
-        TimeUnit.SECONDS.sleep(20);
+        // verify restore
         verifyDataConsistency("orders");
     }
 
     private void verifyDataConsistency(String tableName) {
-        List<List<Object>> mysqlData =
-                query(String.format(QUERY, DATABASE, tableName), mysqlConnection);
-        List<List<Object>> starRocksData =
-                query(String.format(QUERY, DATABASE, tableName), starRocksConnection);
-        Assertions.assertEquals(
-                mysqlData, starRocksData, "Data consistency check failed for table: " + tableName);
+        await().atMost(10000, TimeUnit.MILLISECONDS)
+                .untilAsserted(
+                        () ->
+                                Assertions.assertIterableEquals(
+                                        query(
+                                                String.format(QUERY, DATABASE, tableName),
+                                                mysqlConnection),
+                                        query(
+                                                String.format(QUERY, DATABASE, tableName),
+                                                starRocksConnection)));
     }
 
     private void insertNewDataIntoMySQL() throws SQLException {
