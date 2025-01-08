@@ -72,7 +72,7 @@ import static org.awaitility.Awaitility.given;
         disabledReason =
                 "Currently SPARK do not support cdc. In addition, currently only the zeta engine supports schema evolution for pr https://github.com/apache/seatunnel/pull/5125.")
 public class StarRocksMultiSinkIT extends TestSuiteBase implements TestResource {
-    private static final String DATABASE = "store";
+    private static final String DATABASE = "shop";
     private static final String MYSQL_HOST = "mysql_cdc_e2e";
     private static final String MYSQL_USER_NAME = "mysqluser";
     private static final String MYSQL_USER_PASSWORD = "mysqlpw";
@@ -170,7 +170,7 @@ public class StarRocksMultiSinkIT extends TestSuiteBase implements TestResource 
     public void testStarRocksMultiTableSinkCase(TestContainer container)
             throws InterruptedException, IOException, SQLException {
         String jobId = String.valueOf(JobIdGenerator.newJobId());
-        String jobConfigFile = "/mysql_multi_source_to_multi_sink_streaming.conf";
+        String jobConfigFile = "/mysqlcdc_to_starrocks_with_schema_change.conf";
         CompletableFuture.runAsync(
                 () -> {
                     try {
