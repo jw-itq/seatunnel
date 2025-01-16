@@ -1,8 +1,4 @@
 /*
- * Copyright flink-cdc Authors.
- *
- * Licensed under the Apache Software License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
- *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -10,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.debezium.connector.mysql;
 
 import org.apache.seatunnel.connectors.seatunnel.cdc.mysql.utils.ErrorMessageUtils;
@@ -101,7 +96,9 @@ import java.util.function.Predicate;
 import static io.debezium.util.Strings.isNullOrEmpty;
 
 /**
- * Copied from Debezium project(1.9.8.Final) to fix
+ * Copyright flink-cdc Authors.
+ *
+ * <p>Copied from Debezium project(1.9.8.Final) to fix
  * https://github.com/ververica/flink-cdc-connectors/issues/1944.
  *
  * <p>Line 1427-1433 : Adjust GTID merging logic to support recovering from job which previously
