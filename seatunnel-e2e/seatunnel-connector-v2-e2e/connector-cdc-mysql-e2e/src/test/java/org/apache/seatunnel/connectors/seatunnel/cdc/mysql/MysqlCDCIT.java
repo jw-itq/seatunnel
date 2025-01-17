@@ -37,6 +37,9 @@ import org.apache.seatunnel.e2e.common.util.JobIdGenerator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.TestTemplate;
 import org.testcontainers.containers.Container;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
@@ -63,6 +66,7 @@ import static org.awaitility.Awaitility.await;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.given;
 
 @Slf4j
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisabledOnContainer(
         value = {},
         type = {EngineType.SPARK},
@@ -746,6 +750,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
     }
 
     @TestTemplate
+    @Order(1)
     @DisabledOnContainer(
             value = {},
             type = {EngineType.SPARK, EngineType.FLINK},
@@ -754,11 +759,6 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
             throws IOException, InterruptedException {
         String jobId = String.valueOf(JobIdGenerator.newJobId());
         String jobConfigFile = "/mysqlcdc_earliest_offset.conf";
-        // Clear related content to ensure that multiple operations are not affected
-        clearTable(MYSQL_DATABASE, SOURCE_TABLE_1);
-        clearTable(MYSQL_DATABASE, SINK_TABLE);
-        // Purge binary log at first
-        purgeBinaryLogs();
         // Insert data
         executeSql(
                 String.format(
