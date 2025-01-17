@@ -754,6 +754,8 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
             throws IOException, InterruptedException {
         String jobId = String.valueOf(JobIdGenerator.newJobId());
         String jobConfigFile = "/mysqlcdc_earliest_offset.conf";
+        // Clear related content to ensure that multiple operations are not affected
+        clearTable(MYSQL_DATABASE, SINK_TABLE);
         // Purge binary log at first
         purgeBinaryLogs();
         // Insert data
@@ -864,8 +866,9 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                         + " f_text, f_tinytext, f_varchar, f_date, f_datetime, f_timestamp, f_bit1, cast(f_bit64 as char) as f_bit64, f_char,"
                         + " f_enum, cast(f_mediumblob as char) as f_mediumblob, f_long_varchar, f_real, f_time, f_tinyint, f_tinyint_unsigned,"
                         + " f_json, f_year from %s.%s where id in (%s)";
-
+        // Clear related content to ensure that multiple operations are not affected
         clearTable(MYSQL_DATABASE, SOURCE_TABLE_1);
+        clearTable(MYSQL_DATABASE, SINK_TABLE);
         // Purge binary log at first
         purgeBinaryLogs();
         // Record current binlog offset
