@@ -755,6 +755,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
         String jobId = String.valueOf(JobIdGenerator.newJobId());
         String jobConfigFile = "/mysqlcdc_earliest_offset.conf";
         // Clear related content to ensure that multiple operations are not affected
+        clearTable(MYSQL_DATABASE, SOURCE_TABLE_1);
         clearTable(MYSQL_DATABASE, SINK_TABLE);
         // Purge binary log at first
         purgeBinaryLogs();
