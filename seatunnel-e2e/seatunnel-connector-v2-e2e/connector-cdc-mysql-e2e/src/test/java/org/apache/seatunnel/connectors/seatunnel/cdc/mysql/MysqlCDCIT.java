@@ -765,7 +765,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                                 + "                                         f_double_precision, f_longtext, f_mediumtext, f_text, f_tinytext, f_varchar, f_date, f_datetime,\n"
                                 + "                                         f_timestamp, f_bit1, f_bit64, f_char, f_enum, f_mediumblob, f_long_varchar, f_real, f_time,\n"
                                 + "                                         f_tinyint, f_tinyint_unsigned, f_json, f_year )\n"
-                                + "VALUES ( 4, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
+                                + "VALUES ( 11, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
                                 + "         0x68656C6C6F, 0x18000000789C0BC9C82C5600A244859CFCBC7485B2C4A2A4CCBCC4A24A00697308D4, NULL,\n"
                                 + "         0x74696E79626C6F62, 0x48656C6C6F20776F726C64, 12345, 54321, 123456, 654321, 1234567, 7654321, 1234567, 7654321,\n"
                                 + "         123456789, 987654321, 123, 789, 12.34, 56.78, 90.12, 'This is a long text field', 'This is a medium text field',\n"
@@ -782,7 +782,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                                 + "                                         f_double_precision, f_longtext, f_mediumtext, f_text, f_tinytext, f_varchar, f_date, f_datetime,\n"
                                 + "                                         f_timestamp, f_bit1, f_bit64, f_char, f_enum, f_mediumblob, f_long_varchar, f_real, f_time,\n"
                                 + "                                         f_tinyint, f_tinyint_unsigned, f_json, f_year )\n"
-                                + "VALUES ( 5, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
+                                + "VALUES ( 12, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
                                 + "         0x68656C6C6F, 0x18000000789C0BC9C82C5600A244859CFCBC7485B2C4A2A4CCBCC4A24A00697308D4, NULL, 0x74696E79626C6F62,\n"
                                 + "         0x48656C6C6F20776F726C64, 12345, 54321, 123456, 654321, 1234567, 7654321, 1234567, 7654321, 123456789, 987654321,\n"
                                 + "         123, 789, 12.34, 56.78, 90.12, 'This is a long text field', 'This is a medium text field', 'This is a text field',\n"
@@ -817,7 +817,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
         // Make some changes after the savepoint
         executeSql(
                 String.format(
-                        "UPDATE %s.%s SET f_year = '2025' WHERE id = 5",
+                        "UPDATE %s.%s SET f_year = '2025' WHERE id = 12",
                         MYSQL_DATABASE, SOURCE_TABLE_1));
 
         // Restart the job from savepoint
@@ -835,7 +835,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
         // Make some changes after the restore
         executeSql(
                 String.format(
-                        "UPDATE %s.%s SET f_tinyint_unsigned = '88' WHERE id = 5",
+                        "UPDATE %s.%s SET f_tinyint_unsigned = '88' WHERE id = 12",
                         MYSQL_DATABASE, SOURCE_TABLE_1));
 
         // verify data
@@ -856,6 +856,15 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
     public void testMysqlCdcSpecificOffset(TestContainer container) throws Exception {
         String jobId = String.valueOf(JobIdGenerator.newJobId());
         String jobConfigFile = "/mysqlcdc_specific_offset.conf";
+        String source_sql_where_id_template =
+                "select id, cast(f_binary as char) as f_binary, cast(f_blob as char) as f_blob, cast(f_long_varbinary as char) as f_long_varbinary,"
+                        + " cast(f_longblob as char) as f_longblob, cast(f_tinyblob as char) as f_tinyblob, cast(f_varbinary as char) as f_varbinary,"
+                        + " f_smallint, f_smallint_unsigned, f_mediumint, f_mediumint_unsigned, f_int, f_int_unsigned, f_integer, f_integer_unsigned,"
+                        + " f_bigint, f_bigint_unsigned, f_numeric, f_decimal, f_float, f_double, f_double_precision, f_longtext, f_mediumtext,"
+                        + " f_text, f_tinytext, f_varchar, f_date, f_datetime, f_timestamp, f_bit1, cast(f_bit64 as char) as f_bit64, f_char,"
+                        + " f_enum, cast(f_mediumblob as char) as f_mediumblob, f_long_varchar, f_real, f_time, f_tinyint, f_tinyint_unsigned,"
+                        + " f_json, f_year from %s.%s where id in (%s)";
+
         clearTable(MYSQL_DATABASE, SOURCE_TABLE_1);
         // Purge binary log at first
         purgeBinaryLogs();
@@ -875,7 +884,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                                 + "                                         f_double_precision, f_longtext, f_mediumtext, f_text, f_tinytext, f_varchar, f_date, f_datetime,\n"
                                 + "                                         f_timestamp, f_bit1, f_bit64, f_char, f_enum, f_mediumblob, f_long_varchar, f_real, f_time,\n"
                                 + "                                         f_tinyint, f_tinyint_unsigned, f_json, f_year )\n"
-                                + "VALUES ( 7, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
+                                + "VALUES ( 14, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
                                 + "         0x68656C6C6F, 0x18000000789C0BC9C82C5600A244859CFCBC7485B2C4A2A4CCBCC4A24A00697308D4, NULL,\n"
                                 + "         0x74696E79626C6F62, 0x48656C6C6F20776F726C64, 12345, 54321, 123456, 654321, 1234567, 7654321, 1234567, 7654321,\n"
                                 + "         123456789, 987654321, 123, 789, 12.34, 56.78, 90.12, 'This is a long text field', 'This is a medium text field',\n"
@@ -892,7 +901,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                                 + "                                         f_double_precision, f_longtext, f_mediumtext, f_text, f_tinytext, f_varchar, f_date, f_datetime,\n"
                                 + "                                         f_timestamp, f_bit1, f_bit64, f_char, f_enum, f_mediumblob, f_long_varchar, f_real, f_time,\n"
                                 + "                                         f_tinyint, f_tinyint_unsigned, f_json, f_year )\n"
-                                + "VALUES ( 8, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
+                                + "VALUES ( 15, 0x61626374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,\n"
                                 + "         0x68656C6C6F, 0x18000000789C0BC9C82C5600A244859CFCBC7485B2C4A2A4CCBCC4A24A00697308D4, NULL, 0x74696E79626C6F62,\n"
                                 + "         0x48656C6C6F20776F726C64, 12345, 54321, 123456, 654321, 1234567, 7654321, 1234567, 7654321, 123456789, 987654321,\n"
                                 + "         123, 789, 12.34, 56.78, 90.12, 'This is a long text field', 'This is a medium text field', 'This is a text field',\n"
@@ -918,7 +927,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
-                                    query(getSourceQuerySQL(MYSQL_DATABASE, SOURCE_TABLE_1)),
+                                    query(String.format(source_sql_where_id_template, database, tableName, "14,15")),
                                     query(getSinkQuerySQL(MYSQL_DATABASE, SINK_TABLE)));
                         });
 
@@ -927,7 +936,7 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
         // Make some changes after the savepoint
         executeSql(
                 String.format(
-                        "UPDATE %s.%s SET f_year = '2025' WHERE id = 8",
+                        "UPDATE %s.%s SET f_year = '2025' WHERE id = 15",
                         MYSQL_DATABASE, SOURCE_TABLE_1));
 
         CompletableFuture.supplyAsync(
@@ -944,14 +953,14 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
         // Make some changes after the restore
         executeSql(
                 String.format(
-                        "UPDATE %s.%s SET f_tinyint_unsigned = '77' WHERE id = 8",
+                        "UPDATE %s.%s SET f_tinyint_unsigned = '77' WHERE id = 15",
                         MYSQL_DATABASE, SOURCE_TABLE_1));
 
         await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
-                                    query(getSourceQuerySQL(MYSQL_DATABASE, SOURCE_TABLE_1)),
+                                    query(String.format(source_sql_where_id_template, database, tableName, "14,15")),
                                     query(getSinkQuerySQL(MYSQL_DATABASE, SINK_TABLE)));
                         });
     }
