@@ -927,7 +927,12 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
-                                    query(String.format(source_sql_where_id_template, database, tableName, "14,15")),
+                                    query(
+                                            String.format(
+                                                    source_sql_where_id_template,
+                                                    MYSQL_DATABASE,
+                                                    SOURCE_TABLE_1,
+                                                    "14,15")),
                                     query(getSinkQuerySQL(MYSQL_DATABASE, SINK_TABLE)));
                         });
 
@@ -960,7 +965,12 @@ public class MysqlCDCIT extends TestSuiteBase implements TestResource {
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
-                                    query(String.format(source_sql_where_id_template, database, tableName, "14,15")),
+                                    query(
+                                            String.format(
+                                                    source_sql_where_id_template,
+                                                    MYSQL_DATABASE,
+                                                    SOURCE_TABLE_1,
+                                                    "14,15")),
                                     query(getSinkQuerySQL(MYSQL_DATABASE, SINK_TABLE)));
                         });
     }
