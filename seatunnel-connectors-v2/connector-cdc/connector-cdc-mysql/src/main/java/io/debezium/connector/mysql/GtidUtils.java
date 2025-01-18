@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 /*
- * Copyright flink-cdc Authors.
- *
  * Utils for handling GTIDs.
  */
 public class GtidUtils {

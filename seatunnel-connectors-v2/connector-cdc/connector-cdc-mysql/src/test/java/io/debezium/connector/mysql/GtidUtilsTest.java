@@ -23,11 +23,7 @@ import static io.debezium.connector.mysql.GtidUtils.fixRestoredGtidSet;
 import static io.debezium.connector.mysql.GtidUtils.mergeGtidSetInto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Copyright flink-cdc Authors.
- *
- * <p>Unit test for {@link GtidUtils}.
- */
+/** Unit test for {@link GtidUtils}. */
 class GtidUtilsTest {
     @Test
     void testFixingRestoredGtidSet() {
