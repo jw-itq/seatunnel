@@ -317,15 +317,9 @@ public class SeaTunnelContainer extends AbstractTestContainer {
     }
 
     @Override
-    public Container.ExecResult executeJob(String confFile, String jobId, List<String> variables)
+    public Container.ExecResult executeJob(String confFile, String jobId, String... variables)
             throws IOException, InterruptedException {
-        return doExecuteJob(confFile, jobId, variables);
-    }
-
-    @Override
-    public Container.ExecResult executeJob(String confFile, String jobId)
-            throws IOException, InterruptedException {
-        return doExecuteJob(confFile, jobId, null);
+        return doExecuteJob(confFile, jobId, variables != null ? Arrays.asList(variables) : null);
     }
 
     private Container.ExecResult doExecuteJob(String confFile, String jobId, List<String> variables)

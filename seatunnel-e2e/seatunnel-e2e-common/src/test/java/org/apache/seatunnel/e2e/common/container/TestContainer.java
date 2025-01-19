@@ -44,12 +44,7 @@ public interface TestContainer extends TestResource {
     Container.ExecResult executeJob(String confFile, List<String> variables)
             throws IOException, InterruptedException;
 
-    default Container.ExecResult executeJob(String confFile, String jobId, List<String> variables)
-            throws IOException, InterruptedException {
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    default Container.ExecResult executeJob(String confFile, String jobId)
+    default Container.ExecResult executeJob(String confFile, String jobId, String... variables)
             throws IOException, InterruptedException {
         throw new UnsupportedOperationException("Not implemented");
     }
