@@ -498,19 +498,15 @@ public class SeaTunnelContainer extends AbstractTestContainer {
     }
 
     @Override
-    public Container.ExecResult restoreJob(String confFile, String jobId)
+    public Container.ExecResult restoreJob(String confFile, String jobId, String... variables)
             throws IOException, InterruptedException {
         runningCount.incrementAndGet();
-        Container.ExecResult result = restoreJob(server, confFile, jobId);
-        runningCount.decrementAndGet();
-        return result;
-    }
-
-    @Override
-    public Container.ExecResult restoreJob(String confFile, String jobId, List<String> variables)
-            throws IOException, InterruptedException {
-        runningCount.incrementAndGet();
-        Container.ExecResult result = restoreJob(server, confFile, jobId, variables);
+        Container.ExecResult result =
+                restoreJob(
+                        server,
+                        confFile,
+                        jobId,
+                        variables != null ? Arrays.asList(variables) : null);
         runningCount.decrementAndGet();
         return result;
     }

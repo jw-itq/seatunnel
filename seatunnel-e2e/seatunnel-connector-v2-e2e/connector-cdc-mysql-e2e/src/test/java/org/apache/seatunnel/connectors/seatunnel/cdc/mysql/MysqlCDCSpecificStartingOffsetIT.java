@@ -296,9 +296,10 @@ public class MysqlCDCSpecificStartingOffsetIT extends TestSuiteBase implements T
         // Record current binlog offset
         BinlogOffset currentBinlogOffset = getCurrentBinlogOffset();
 
-        List<String> variables = new ArrayList<>();
-        variables.add("specific_offset_file=" + currentBinlogOffset.getFilename());
-        variables.add("specific_offset_pos=" + currentBinlogOffset.getPosition());
+        String[] variables = {
+            "specific_offset_file=" + currentBinlogOffset.getFilename(),
+            "specific_offset_pos=" + currentBinlogOffset.getPosition()
+        };
 
         // Insert data
         executeSql(

@@ -64,12 +64,7 @@ public interface TestContainer extends TestResource {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    default Container.ExecResult restoreJob(String confFile, String jobId)
-            throws IOException, InterruptedException {
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    default Container.ExecResult restoreJob(String confFile, String jobId, List<String> variables)
+    default Container.ExecResult restoreJob(String confFile, String jobId, String... variables)
             throws IOException, InterruptedException {
         throw new UnsupportedOperationException("Not implemented");
     }
