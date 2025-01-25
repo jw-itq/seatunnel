@@ -79,10 +79,7 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
     public void startUp() {
         log.info("isGithubActionsEnv: {}", isGithubActionsEnv);
         container =
-                new GenericContainer<>(DOCKER_IMAGE)
-                        .withNetwork(NETWORK)
-                        .withNetworkAliases(HOST)
-                        .withPrivilegedMode(true);
+                new GenericContainer<>(DOCKER_IMAGE).withNetwork(NETWORK).withNetworkAliases(HOST);
         container.setPortBindings(
                 Lists.newArrayList(
                         String.format("%s:%s", QUERY_PORT, QUERY_PORT),
@@ -109,9 +106,7 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
         props.put("user", USERNAME);
         props.put("password", PASSWORD);
         jdbcConnection = driver.connect(String.format(URL, container.getHost()), props);
-        if (isGithubActionsEnv) {
-            initializeBE();
-        }
+        initializeBE();
         try (Statement statement = jdbcConnection.createStatement()) {
             statement.execute(SET_SQL);
             statement.execute(SET_CONNECTIONS);
