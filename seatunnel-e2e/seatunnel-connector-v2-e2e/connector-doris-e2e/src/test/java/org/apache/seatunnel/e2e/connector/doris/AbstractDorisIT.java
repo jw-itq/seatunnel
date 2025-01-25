@@ -79,7 +79,10 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
     public void startUp() {
         log.info("isGithubActionsEnv: {}", isGithubActionsEnv);
         container =
-                new GenericContainer<>(DOCKER_IMAGE).withNetwork(NETWORK).withNetworkAliases(HOST);
+                new GenericContainer<>(DOCKER_IMAGE)
+                        .withNetwork(NETWORK)
+                        .withNetworkAliases(HOST)
+                        .withPrivilegedMode(true);
         container.setPortBindings(
                 Lists.newArrayList(
                         String.format("%s:%s", QUERY_PORT, QUERY_PORT),
