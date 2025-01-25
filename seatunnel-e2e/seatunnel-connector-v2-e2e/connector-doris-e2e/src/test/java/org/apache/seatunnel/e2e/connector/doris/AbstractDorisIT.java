@@ -106,7 +106,9 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
         props.put("user", USERNAME);
         props.put("password", PASSWORD);
         jdbcConnection = driver.connect(String.format(URL, container.getHost()), props);
-        initializeBE();
+        if (isGithubActionsEnv) {
+            initializeBE();
+        }
         try (Statement statement = jdbcConnection.createStatement()) {
             statement.execute(SET_SQL);
             statement.execute(SET_CONNECTIONS);
