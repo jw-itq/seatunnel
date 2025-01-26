@@ -134,7 +134,8 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
             while (beResultSet.next()) {
                 beList.add(beResultSet.getString("Host"));
             }
-            if (beList.stream().anyMatch("127.0.0.1"::equals)) {
+            log.info("initializeBE beList: {}", beList);
+            if (beList.stream().anyMatch("127.0.0.1"::equals) || beList.stream().anyMatch("localhost"::equals)) {
                 ResultSet resultSet = statement.executeQuery(SHOW_FE);
                 String feIp = null;
                 while (resultSet.next()) {
