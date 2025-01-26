@@ -78,7 +78,9 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
     private static final String PROJECTION_QUERY =
             "select id,name,description,weight,add_column1,add_column2,add_column3 from %s.%s order by id;";
     private static final MySqlContainer MYSQL_CONTAINER = createMySqlContainer(MySqlVersion.V8_0);
-    private final UniqueDatabase shopDatabase = new UniqueDatabase(MYSQL_CONTAINER, DATABASE);
+    private final UniqueDatabase shopDatabase =
+            new UniqueDatabase(
+                    MYSQL_CONTAINER, DATABASE, MYSQL_USER_NAME, MYSQL_USER_PASSWORD, DATABASE);
 
     @TestContainerExtension
     private final ContainerExtendedFactory extendedFactory =
@@ -122,7 +124,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                         throw new RuntimeException(e);
                     }
                 });
-        TimeUnit.SECONDS.sleep(60);
+        TimeUnit.SECONDS.sleep(20);
         // waiting for case1 completed
         assertSchemaEvolutionForAddColumns(
                 DATABASE, SOURCE_TABLE, SINK_TABLE, mysqlConnection, jdbcConnection);
@@ -245,8 +247,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
             String sinkTable,
             Connection sourceConnection,
             Connection sinkConnection) {
-        await().atMost(300000, TimeUnit.MILLISECONDS)
-                .pollInterval(1000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
@@ -256,8 +257,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                                         query(
                                                 String.format(QUERY_COLUMNS, database, sinkTable),
                                                 sinkConnection)));
-        await().atMost(300000, TimeUnit.MILLISECONDS)
-                .pollInterval(1000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
