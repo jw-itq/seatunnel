@@ -101,14 +101,12 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                         .withSetupSQL("docker/setup.sql")
                         .withNetwork(NETWORK)
                         .withNetworkAliases(MYSQL_HOST)
-                        .withPrivilegedMode(true)
                         .withDatabaseName(DATABASE)
                         .withUsername(MYSQL_USER_NAME)
                         .withPassword(MYSQL_USER_PASSWORD)
                         .withLogConsumer(
                                 new Slf4jLogConsumer(
                                         DockerLoggerFactory.getLogger("mysql-docker-image")));
-        mySqlContainer.setPortBindings(Lists.newArrayList(String.format("%s:%s", 3306, 3306)));
         return mySqlContainer;
     }
 
