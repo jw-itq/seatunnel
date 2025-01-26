@@ -184,7 +184,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
             String sinkTable,
             Connection sourceConnection,
             Connection sinkConnection) {
-        await().atMost(300000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
@@ -197,7 +197,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
 
         // case1 add columns with cdc data at same time
         shopDatabase.setTemplateName("add_columns").createAndInitialize();
-        await().atMost(300000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
@@ -207,7 +207,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                                         query(
                                                 String.format(QUERY_COLUMNS, database, sinkTable),
                                                 sinkConnection)));
-        await().atMost(300000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
@@ -229,7 +229,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                                             sinkConnection));
                         });
 
-        await().atMost(300000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
@@ -248,7 +248,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
             String sinkTable,
             Connection sourceConnection,
             Connection sinkConnection) {
-        await().atMost(300000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
@@ -258,7 +258,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                                         query(
                                                 String.format(QUERY_COLUMNS, database, sinkTable),
                                                 sinkConnection)));
-        await().atMost(300000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
