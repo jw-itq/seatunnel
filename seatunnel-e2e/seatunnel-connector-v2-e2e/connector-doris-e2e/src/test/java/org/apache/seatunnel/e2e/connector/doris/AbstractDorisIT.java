@@ -56,7 +56,6 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
     protected static final int QUERY_PORT = 9030;
     protected static final int HTTP_PORT = 8030;
     protected static final int BE_HTTP_PORT = 8040;
-    protected static final int BE_THRIFT_PORT = 9060;
     protected static final String URL = "jdbc:mysql://%s:" + QUERY_PORT;
     protected static final String USERNAME = "root";
     protected static final String PASSWORD = "";
@@ -88,7 +87,6 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
                 Lists.newArrayList(
                         String.format("%s:%s", QUERY_PORT, QUERY_PORT),
                         String.format("%s:%s", HTTP_PORT, HTTP_PORT),
-                        String.format("%s:%s", BE_THRIFT_PORT, BE_THRIFT_PORT),
                         String.format("%s:%s", BE_HTTP_PORT, BE_HTTP_PORT)));
         Startables.deepStart(Stream.of(container)).join();
         log.info("doris container started");
@@ -111,7 +109,9 @@ public abstract class AbstractDorisIT extends TestSuiteBase implements TestResou
         props.put("user", USERNAME);
         props.put("password", PASSWORD);
         jdbcConnection = driver.connect(String.format(URL, container.getHost()), props);
-        initializeBE();
+        if (isGithubActionsEnv) {
+            initializeBE();
+        }
         try (Statement statement = jdbcConnection.createStatement()) {
             statement.execute(SET_SQL);
             statement.execute(SET_CONNECTIONS);
