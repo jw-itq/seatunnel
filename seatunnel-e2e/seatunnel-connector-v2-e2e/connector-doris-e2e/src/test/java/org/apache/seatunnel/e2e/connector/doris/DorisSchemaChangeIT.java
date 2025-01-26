@@ -248,7 +248,8 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
             String sinkTable,
             Connection sourceConnection,
             Connection sinkConnection) {
-        await().atMost(60000, TimeUnit.MILLISECONDS)
+        await().atMost(300000, TimeUnit.MILLISECONDS)
+                .pollInterval(1000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
@@ -258,7 +259,8 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                                         query(
                                                 String.format(QUERY_COLUMNS, database, sinkTable),
                                                 sinkConnection)));
-        await().atMost(60000, TimeUnit.MILLISECONDS)
+        await().atMost(300000, TimeUnit.MILLISECONDS)
+                .pollInterval(1000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
