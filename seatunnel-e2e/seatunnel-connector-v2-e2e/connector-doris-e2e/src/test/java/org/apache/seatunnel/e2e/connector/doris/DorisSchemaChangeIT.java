@@ -101,6 +101,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                         .withSetupSQL("docker/setup.sql")
                         .withNetwork(NETWORK)
                         .withNetworkAliases(MYSQL_HOST)
+                        .withPrivilegedMode(true)
                         .withDatabaseName(DATABASE)
                         .withUsername(MYSQL_USER_NAME)
                         .withPassword(MYSQL_USER_PASSWORD)
