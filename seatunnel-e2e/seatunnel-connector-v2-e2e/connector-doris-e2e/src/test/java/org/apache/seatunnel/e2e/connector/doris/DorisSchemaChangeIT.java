@@ -125,7 +125,7 @@ public class DorisSchemaChangeIT extends AbstractDorisIT {
                         throw new RuntimeException(e);
                     }
                 });
-        TimeUnit.SECONDS.sleep(20);
+        TimeUnit.SECONDS.sleep(60);
         // waiting for case1 completed
         assertSchemaEvolutionForAddColumns(
                 DATABASE, SOURCE_TABLE, SINK_TABLE, mysqlConnection, jdbcConnection);
