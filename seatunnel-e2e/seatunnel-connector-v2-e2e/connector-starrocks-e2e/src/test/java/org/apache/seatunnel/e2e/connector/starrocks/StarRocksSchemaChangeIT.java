@@ -282,8 +282,7 @@ public class StarRocksSchemaChangeIT extends TestSuiteBase implements TestResour
             String sinkTable,
             Connection sourceConnection,
             Connection sinkConnection) {
-        await().atMost(300000, TimeUnit.MILLISECONDS)
-                .pollInterval(1000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
@@ -296,8 +295,7 @@ public class StarRocksSchemaChangeIT extends TestSuiteBase implements TestResour
 
         // case1 add columns with cdc data at same time
         shopDatabase.setTemplateName("add_columns").createAndInitialize();
-        await().atMost(300000, TimeUnit.MILLISECONDS)
-                .pollInterval(1000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () ->
                                 Assertions.assertIterableEquals(
@@ -307,8 +305,7 @@ public class StarRocksSchemaChangeIT extends TestSuiteBase implements TestResour
                                         query(
                                                 String.format(QUERY_COLUMNS, database, sinkTable),
                                                 sinkConnection)));
-        await().atMost(300000, TimeUnit.MILLISECONDS)
-                .pollInterval(1000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
@@ -330,8 +327,7 @@ public class StarRocksSchemaChangeIT extends TestSuiteBase implements TestResour
                                             sinkConnection));
                         });
 
-        await().atMost(300000, TimeUnit.MILLISECONDS)
-                .pollInterval(1000, TimeUnit.MILLISECONDS)
+        await().atMost(60000, TimeUnit.MILLISECONDS)
                 .untilAsserted(
                         () -> {
                             Assertions.assertIterableEquals(
