@@ -129,6 +129,13 @@ public class DorisCDCSinkIT extends AbstractDorisIT {
         initializeJdbcTable();
     }
 
+    @AfterAll
+    public void close() {
+        if (MYSQL_CONTAINER != null) {
+            MYSQL_CONTAINER.close();
+        }
+    }
+
     @TestTemplate
     public void testDorisCDCSink(TestContainer container) throws Exception {
 
